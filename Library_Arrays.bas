@@ -1,44 +1,6 @@
 Attribute VB_Name = "Library_Arrays"
 Option Explicit
 
-Function GenArray( _
-    ByVal Rows As Long, _
-    ByVal Cols As Long, _
-    Optional ByVal ArrayType As String = "Sheet", _
-    Optional ByVal Seperator As String = ":", _
-    Optional ByVal Base As Long = 0 _
-    ) As Variant
-
-Dim a, b As Long
-Dim Result As Variant
-ReDim Result(Base To Rows - 1 + Base, Base To Cols - 1 + Base)
-
-If ArrayType = "Sheet" Then
-    For a = Base To Rows - 1 + Base
-        For b = Base To Cols - 1 + Base
-            Result(a, b) = ColLetter(b + 1 - Base) & Seperator & a
-        Next b
-    Next a
-
-ElseIf ArrayType = "Alpha" Then
-    For a = Base To Rows - 1 + Base
-        For b = Base To Cols - 1 + Base
-            Result(a, b) = ColLetter(b + 1 - Base) & Seperator & ColLetter(a + 1 - Base)
-        Next b
-    Next a
-
-ElseIf ArrayType = "Number" Then
-    For a = Base To Rows - 1 + Base
-        For b = Base To Cols - 1 + Base
-            Result(a, b) = b + a
-        Next b
-    Next a
-End If
-
-GenArray = Result
-
-End Function
-
 'FUNCTION:      Is2D
 '==============================================================================
 'RETURNS TRUE IF ARRAY IS 2 DIMENSIONAL
