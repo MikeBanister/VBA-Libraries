@@ -964,12 +964,13 @@ End Function
 
 Function NumRange(ByVal First As Long, ByVal Last As Long) As Variant
 Dim a, Result() As Long
-ReDim Result(First To Last)
-For a = First To Last
+ReDim Result(0 To Last - First)
+For a = 0 To Last - First
     Result(a) = a
 Next a
 NumRange = Result
 End Function
+
 Function ColLetter(number As Long) As String
     ColLetter = Split(Cells(1, number).Address, "$")(1)
 End Function
