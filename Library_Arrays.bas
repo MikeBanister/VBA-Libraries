@@ -234,6 +234,8 @@ End Function
 'RETURNS SINGLE ROW FROM ARRAY
 '
 '[Row]          ROW TO BE RETURNED
+'[As2D]         TRUE: RETURNS 2D ARRAY
+'               FALSE: RETURNS 1D ARRAY
 '[InPlace]      FALSE: RETURNS NEW ARRAY
 '               TRUE: OVERWRITES [vArray]
 '==============================================================================
@@ -241,6 +243,7 @@ End Function
 Function Row( _
     ByRef vArray As Variant, _
     ByVal Index As Long, _
+    Optional ByVal As2D As Boolean = False, _
     Optional ByVal InPlace As Boolean = False _
     ) As Variant
 
@@ -254,17 +257,24 @@ U1 = UBound(vArray, 1)
 L2 = LBound(vArray, 2)
 U2 = UBound(vArray, 2)
 
+'BUILD 2D ROW
+If As2D = True Then
+    ReDim Result(L1 To L1, L2 To U2)
+    For a = L2 To U2
+        Result(L1, a) = vArray(Index, a)
+    Next a
 
-'BUILD ROW
-ReDim Result(L1 To L1, L2 To U2)
-For a = L2 To U2
-    Result(L1, a) = vArray(Index, a)
-Next a
-
+'BUILD 1D ARRAY
+Else
+    ReDim Result(L2 To U2)
+    For a = L2 To U2
+        Result(a) = vArray(Index, a)
+    End If
+End If
 
 'INPLACE
 If InPlace = True Then
-    vArray = Result
+    vArray = Reslt
 Else
     Row = Result
 End If
@@ -276,6 +286,8 @@ End Function
 'RETURNS SINGLE COLUMN FROM ARRAY
 '
 '[Col]          COLUMN TO BE RETURNED
+'[As2D]         TRUE: RETURNS 2D ARRAY
+'               FALSE: RETURNS 1D ARRAY
 '[InPlace]      FALSE: RETURNS NEW ARRAY
 '               TRUE: OVERWRITES [vArray]
 '==============================================================================
@@ -283,6 +295,7 @@ End Function
 Function Col( _
     ByRef vArray As Variant, _
     ByVal Index As Long, _
+    Optional ByVal As2D As Boolean = False, _
     Optional ByVal InPlace As Boolean = False _
     ) As Variant
 
@@ -296,11 +309,21 @@ U1 = UBound(vArray, 1)
 L2 = LBound(vArray, 2)
 U2 = UBound(vArray, 2)
 
-'BUILD COL
-ReDim Result(L1 To U1, L1 To L1)
-For a = L2 To U2
-    Result(a, L1) = vArray(a, Index)
-Next a
+'BUILD 2D COL
+If As2D = True Then
+    ReDim Result(L1 To U1, L1 To L1)
+    For a = L1 To U1
+        Result(a, L1) = vArray(a, Index)
+    Next a
+
+'BUILD 1D ARRAY
+Else
+    ReDim Result(L1 To U1)
+    For a = L1 To U1
+        Result(a) = vArray(a, Index)
+    Next a
+End If
+
 
 'INPLACE
 If InPlace = True Then
