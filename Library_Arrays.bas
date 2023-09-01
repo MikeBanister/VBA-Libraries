@@ -965,8 +965,8 @@ End Function
 Function NumRange(ByVal First As Long, ByVal Last As Long) As Variant
 Dim a, Result() As Long
 ReDim Result(0 To Last - First)
-For a = 0 To Last - First
-    Result(a) = a
+For a = First To Last
+    Result(a - First) = a
 Next a
 NumRange = Result
 End Function
